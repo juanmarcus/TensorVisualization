@@ -29,10 +29,12 @@ find_package (VTK REQUIRED)
 set(QT_USE_QTOPENGL TRUE)
 #set(QT_USE_QTXML TRUE)
 include (${QT_USE_FILE})
+include (${VTK_USE_FILE})
 
 #-----------------------------------------------------------------------------
 # Include directories
 INCLUDE_DIRECTORIES (
+    ${VTK_INCLUDE_DIRS}
 )
 
 #-----------------------------------------------------------------------------
@@ -42,7 +44,7 @@ ADD_DEFINITIONS(
 
 #-----------------------------------------------------------------------------
 # Configure libraries 
-set(LIBS ${LIBS} ${QT_LIBRARIES})
+set(LIBS ${LIBS} ${QT_LIBRARIES} vtkWidgets)
 
 #-----------------------------------------------------------------------------
 # Dispatch the build into source subdirectory
