@@ -22,6 +22,7 @@ SET (CMAKE_VERBOSE_MAKEFILE ON)
 #-----------------------------------------------------------------------------
 # Find required packages
 find_package (Qt4 REQUIRED)
+find_package (VTK REQUIRED)
 
 #-----------------------------------------------------------------------------
 # Use files
