@@ -38,6 +38,9 @@
 #include "vtkTransform.h"
 #include "vtkInteractorStyleTrackballCamera.h"
 
+#include "vtkPNrrdReader.h"
+#include "vtkImageData.h"
+
 //
 // Similar to Cone2.cxx, we define a callback for interaction.
 // 
@@ -60,6 +63,12 @@ public:
 
 int main()
 {
+
+	vtkPNrrdReader* nrrdReader = vtkPNrrdReader::New();
+	nrrdReader->SetFileName("data/A-ten-mask.nhdr");
+	nrrdReader->Update();
+	std::cout << nrrdReader->GetOutput()->GetNumberOfScalarComponents() << std::endl;
+
 	//
 	// Next we create an instance of vtkConeSource and set some of its
 	// properties. The instance of vtkConeSource "cone" is part of a
