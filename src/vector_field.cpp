@@ -1,5 +1,7 @@
-#include <vtkSphereSource.h>
-
+#include <vtkAssignAttribute.h>
+#include <vtkStructuredPoints.h>
+#include <vtkTransformFilter.h>
+#include <vtkTransform.h>
 #include <vtkPolyDataMapper.h>
 #include <vtkArrowSource.h>
 #include <vtkGlyph2D.h>
@@ -13,7 +15,7 @@
 int main(int, char *[])
 {
 	// Create a scalar data container
-	vtkImageData* imageData = vtkImageData::New();
+	vtkStructuredPoints* imageData = vtkStructuredPoints::New();
 	imageData->SetScalarTypeToFloat();
 	imageData->SetExtent(0, 15, 0, 15, 0, 0);
 	imageData->SetNumberOfScalarComponents(1);
@@ -32,7 +34,7 @@ int main(int, char *[])
 				float* pixel =
 						static_cast<float*> (imageData->GetScalarPointer(x, y,
 								z));
-				pixel[0] = ((float) (x * y)) / ((float) (dims[0] * dims[1]));
+				pixel[0] = ((float) (x * y)) / ((float) (dims[0] * dims[1])) * 10;
 			}
 		}
 	}
@@ -41,6 +43,12 @@ int main(int, char *[])
 	vtkImageGradient* imageGradient = vtkImageGradient::New();
 	imageGradient->HandleBoundariesOn();
 	imageGradient->SetInput(imageData);
+
+	//	// Move computed vectors (fix vtk weirdness)
+	//	vtkAssignAttribute* aa = vtkAssignAttribute::New();
+	//	aa->Assign(vtkDataSetAttributes::SCALARS, vtkDataSetAttributes::VECTORS,
+	//			vtkAssignAttribute::POINT_DATA);
+	//	aa->SetInputConnection(imageGradient->GetOutputPort());
 
 	// Create the glyph source
 	vtkArrowSource* arrowSource = vtkArrowSource::New();
@@ -51,6 +59,8 @@ int main(int, char *[])
 	glyph2D->SetInputConnection(imageGradient->GetOutputPort());
 	glyph2D->ScalingOff();
 	glyph2D->OrientOn();
+	glyph2D->SetInputArrayToProcess(1, 0, 0,
+			vtkDataObject::FIELD_ASSOCIATION_POINTS, "Gradient");
 
 	// Create the Renderer
 	vtkRenderer* renderer = vtkRenderer::New();
