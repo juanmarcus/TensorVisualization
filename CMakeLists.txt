@@ -44,7 +44,7 @@ ADD_DEFINITIONS(
 
 #-----------------------------------------------------------------------------
 # Configure libraries 
-set(LIBS ${LIBS} ${QT_LIBRARIES} vtkWidgets)
+set(LIBS ${LIBS} ${QT_LIBRARIES} vtkWidgets vtkVolumeRendering)
 
 #-----------------------------------------------------------------------------
 # Dispatch the build into source subdirectory
