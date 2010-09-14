@@ -23,6 +23,7 @@ SET (CMAKE_VERBOSE_MAKEFILE ON)
 # Find required packages
 find_package (Qt4 REQUIRED)
 find_package (VTK REQUIRED)
+find_package (Boost 1.39.0 COMPONENTS program_options REQUIRED)
 
 #-----------------------------------------------------------------------------
 # Use files
@@ -35,6 +36,7 @@ include (${VTK_USE_FILE})
 # Include directories
 INCLUDE_DIRECTORIES (
     ${VTK_INCLUDE_DIRS}
+    ${Boost_INCLUDE_DIRS}
 )
 
 #-----------------------------------------------------------------------------
@@ -44,7 +46,7 @@ ADD_DEFINITIONS(
 
 #-----------------------------------------------------------------------------
 # Configure libraries 
-set(LIBS ${LIBS} ${QT_LIBRARIES} vtkWidgets vtkVolumeRendering)
+set(LIBS ${LIBS} ${QT_LIBRARIES} ${Boost_LIBRARIES} vtkWidgets vtkVolumeRendering)
 
 #-----------------------------------------------------------------------------
 # Dispatch the build into source subdirectory
